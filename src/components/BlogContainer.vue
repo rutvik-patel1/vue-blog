@@ -1,0 +1,44 @@
+<template>
+  <div class="blog-container">
+    <div class="main-container">
+        <slot name="main"></slot>
+    </div>
+    <div class="sidebar">
+        <slot name="sidebar"></slot>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+.blog-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.main-container{
+    flex:0 0 70%; 
+    padding:30px;
+}
+.sidebar{
+    flex:0 0 30%;
+    padding-left: 30px;
+    padding-top: 30px;
+}
+@media all and (max-width: 800px) {
+.sidebar{
+    flex:1 0 auto;
+    
+}
+.main-container{
+    flex:1 0 100%;
+    width:100%;
+    padding: 18px;
+}
+}
+
+</style>
