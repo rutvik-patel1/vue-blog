@@ -9,6 +9,7 @@
       </template>
       <template v-slot:sidebar>
           <base-search></base-search>
+          <base-category></base-category>
       </template>
     </blog-container>
   </div>
@@ -19,13 +20,15 @@ import NavBar from '../components/NavBar.vue'
 import BlogContainer from '../components/BlogContainer.vue'
 import BaseCard from '../components/BaseCard.vue'
 import BaseSearch from '../components/BaseSearch.vue'
+import BaseCategory from '../components/BaseCategory.vue'
 export default {
   name: 'Home',
   components:{
     NavBar,
     BlogContainer,
     BaseCard,
-    BaseSearch
+    BaseSearch,
+    BaseCategory
   }
 
 }
