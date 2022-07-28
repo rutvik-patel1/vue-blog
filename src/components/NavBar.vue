@@ -92,7 +92,7 @@ nav {
 
 .links-container {
   height: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: all 0.3s linear;
 }
 .show-container {
