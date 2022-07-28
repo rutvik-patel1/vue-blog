@@ -25,11 +25,13 @@ export default {
 }
 .timestamp{
     color: #777;
+    font-size: 12px;
     position: absolute;
     right: 20px;
     top: 10px;}
 h4, p{
       margin: 3px 10px;
+      font-size: 15px;
   }
 .comment-card{
     padding:5px 50px;

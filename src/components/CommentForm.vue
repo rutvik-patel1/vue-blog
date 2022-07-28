@@ -1,13 +1,17 @@
 <template>
   <div>
-    <form>
+    <form @submit.prevent="">
         <div>
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
         </div>
+        <br>
         <div>
             <label for="comment">Comment</label>
-            <textarea name="comment" id="comment" rows="5" placeholder="write comment here..."></textarea>
+            <textarea name="comment" id="comment" rows="5" placeholder="write comment here..." required></textarea>
+        </div>
+        <div>
+            <button type="submit">Post A Comment</button>
         </div>
     </form>
   </div>
@@ -42,5 +46,17 @@ input, textarea{
 textarea {
    resize: none;
 }
-
+button{
+	/* margin: 10px; */
+	cursor: pointer;
+    margin-top: 32px;
+	padding: 8px 10px;
+	background: darkcyan;
+	color: white;
+	border: none;
+    border-radius: 4px;
+}
+button:hover{
+    background: rgb(0, 105, 105);
+}
 </style>

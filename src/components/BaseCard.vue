@@ -1,14 +1,16 @@
 <template>
   <div class="card d-flex" @click="handleClick">
     <div class="card-container-main">
-      <div class="card-title"><h2>Title</h2></div>
+      <div class="card-title"><h2 style="font-weight:400">Title</h2></div>
       <div class="d-flex author-name text-italic align-items">
         <span class="material-symbols-outlined"> history_edu </span>Rutvik Patel
       </div>
       <div class="info-text">
         <div class="d-flex align-items"><span class="material-symbols-outlined"> schedule </span><span style="color:rgb(122, 121, 121)">26july 2022 </span>&#8226; <span class="material-symbols-outlined">
       forum
-      </span> <span style="color:rgb(122, 121, 121)">785 comments</span> </div>
+      </span> <span style="color:rgb(122, 121, 121)">785 comments</span>&#8226;
+      <span class="material-symbols-outlined">category</span><span style="color:rgb(122, 121, 121)">Health</span>
+      </div>
       </div>
       <div class="card-text-container">
         <div>
@@ -59,8 +61,9 @@ export default {
   display: flex;
 }
 .card:hover {
-box-shadow: 0 5px 12px rgba(0, 0, 0, 15%);
-border: none;
+box-shadow: 0 5px 12px rgba(0, 0, 0, 10%);
+transform: scale(1.01);
+/* border: none; */
 }
 a {
   color:rgb(156, 156, 156)
@@ -106,7 +109,8 @@ span{
 }
 .card-title{
   padding: 0 7px;
-  font-style: italic;
+  color: hsl(209, 40%, 15%);
+  /* font-style: italic; */
 }
 
 

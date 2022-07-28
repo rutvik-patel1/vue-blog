@@ -25,12 +25,14 @@
       <div class="card-text-container">
         <div>
           <div class="blog-content-text">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged.
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of type
+              and scrambled it to make a type specimen book. It has survived not
+              only five centuries, but also the leap into electronic typesetting,
+              remaining essentially unchanged.
+            </p>
             <br />
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -124,18 +126,17 @@ export default {
   flex: 0 0 40%;
 }
 .card {
-  /* border: 1px solid #ccc; */
+  border: 1px solid #ccc;
   position: relative;
   cursor: pointer;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 8%);
   border-radius: 10px;
-  padding: 10px;
+  padding: 30px 10px;
   margin-bottom: 20px;
 }
-/* .card:hover {
-box-shadow: 0 5px 12px rgba(0, 0, 0, 15%);
-border: none;
-} */
+.card:hover {
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 15%);
+}
 a {
   color: rgb(156, 156, 156);
 }
@@ -184,6 +185,7 @@ span {
 .blog-content-text {
   text-align: justify;
   margin-right: 20px;
+  font-weight: 400;
 }
 .card-title {
   padding: 0 7px;

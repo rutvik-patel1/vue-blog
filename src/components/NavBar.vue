@@ -3,7 +3,7 @@
     <div class="nav-center">
       <div class="nav-header">
         <img src="../assets/logo.png" class="logo" alt="logo" />
-        <h1 class="links" >Blog</h1>
+        <h1 class="links" style="font-weight:400; color: hsl(209, 34%, 30%);" >Blog</h1>
         <button class="nav-toggle" @click="toggleNavbar">
           <span class="material-symbols-rounded">{{
             isVisible ? "close" : "menu"
@@ -92,7 +92,7 @@ nav {
 
 .links-container {
   height: 0;
-  /* overflow: hidden; */
+  overflow: hidden;
   transition: all 0.3s linear;
 }
 .show-container {

@@ -1,7 +1,7 @@
 <template>
   <div class="search-input">    
     <span class="material-symbols-outlined">search</span>
-    <input type="text" placeholder="Search...">
+    <input type="text" placeholder="Search by title, author and category">
   </div>
 </template>
 
