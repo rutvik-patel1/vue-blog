@@ -26,8 +26,7 @@ export default {
 }
 .sidebar{
     flex:0 0 30%;
-    padding-left: 30px;
-    padding-top: 30px;
+    padding:30px;
 }
 @media all and (max-width: 800px) {
 .sidebar{
