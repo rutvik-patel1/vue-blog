@@ -13,7 +13,7 @@
       <div :class="[isVisible ? 'fixed-height' : '']" class="links-container">
         <ul class="links">
           <li>
-            <a>About</a>
+            <a>Subscribe</a>
           </li>
           <li>
             <a>Login</a>
