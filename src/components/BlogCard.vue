@@ -2,23 +2,25 @@
   <div class="card">
     <div class="line"></div>
     <div class="card-container-main">
-      <div class="card-title"><h2>The Return of Infectious Disease</h2></div>
+      <div class="card-title"><h2>{{blog.title}}</h2></div>
       <div
         class="d-flex author-name text-italic align-items justify-content-center"
       >
-        <span class="material-symbols-outlined"> history_edu </span>Rutvik Patel
+        <span class="material-symbols-outlined"> history_edu </span>{{blog.author}}
       </div>
       <div class="info-text">
         <div class="d-flex align-items justify-content-center">
           <span class="material-symbols-outlined"> schedule </span
           ><span style="color: rgb(122, 121, 121)">26july 2022 </span>&#8226;
           <span class="material-symbols-outlined"> forum </span>
-          <span style="color: rgb(122, 121, 121)">785 comments</span>
+          <span style="color: rgb(122, 121, 121)">{{blog.comments.length}} comments</span>
+          <span class="material-symbols-outlined">category</span>
+          <span style="color:rgb(122, 121, 121)">{{blog.category}}</span>
         </div>
       </div>
       <div class="img-container">
         <img
-          src="https://miro.medium.com/max/700/1*CkIdwzogMMFGLPXX-UuQIQ.jpeg"
+          :src="blog.image_url"
           alt="blog-post"
         />
       </div>
@@ -26,67 +28,7 @@
         <div>
           <div class="blog-content-text">
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of type
-              and scrambled it to make a type specimen book. It has survived not
-              only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged.
-            </p>
-            <br />
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
-            </p>
-            <br />
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
-            </p>
-
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
-            </p>
-            <br />
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
-            </p>
-            <br />
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
-            </p>
-            <br />
-
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. >
+              {{blog.content}}
             </p>
             <br />
           </div>
@@ -95,14 +37,8 @@
     </div>
     <div class="blog-comment-container">
       <div class="card-title " style="color: rgb(156, 156, 156);"><h2>Comments</h2></div>
-      <comment-form></comment-form>
-      <base-comment></base-comment>
-      <base-comment></base-comment>
-      <base-comment></base-comment>
-      <base-comment></base-comment>
-      <base-comment></base-comment>
-      <base-comment></base-comment>
-      <base-comment></base-comment>
+      <comment-form :id="blog.id" @postComment="postComment"></comment-form>
+      <base-comment v-for="(data,index) in comments" :comment="data" :key="index"></base-comment>
     </div>
   </div>
 </template>
@@ -111,10 +47,27 @@
 import CommentForm from '../components/CommentForm.vue'
 import BaseComment from '../components/BaseComment.vue';
 export default {
+  props:['blog'],
+  data() {
+    return {
+      commentData:this.blog.comments
+    }
+  },
   components:{
     CommentForm,
     BaseComment
+  },
+  methods:{
+    postComment(data){
+      this.commentData = [...this.commentData,data]
+    }
+  },
+  computed:{
+    comments(){
+      return this.commentData 
+    }
   }
+
 };
 </script>
 
@@ -151,7 +104,7 @@ a {
 }
 img {
   width: 100%;
-  height: 300px;
+  height: 500px;
   padding: 35px;
 }
 .d-flex {

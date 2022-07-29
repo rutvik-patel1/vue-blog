@@ -1,35 +1,55 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <blog-container>
-        <template v-slot:main>
-          <blog-card></blog-card>
-        </template>
-        <template v-slot:sidebar>
-            <base-search></base-search>
-            <author-profile></author-profile>
-        </template>
+    <blog-container v-if="!(blog && Object.keys(blog).length === 0)">
+      <template v-slot:main>
+        <blog-card :blog="blog"></blog-card>
+      </template>
+      <template v-slot:sidebar>
+        <base-search></base-search>
+        <author-profile :blog="blog"></author-profile>
+      </template>
     </blog-container>
+    <div v-else>No Data Found</div>
   </div>
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue'
-import BlogContainer from '../components/BlogContainer.vue'
-import BlogCard from '../components/BlogCard.vue'
-import AuthorProfile from '../components/AuthorProfile.vue'
-import BaseSearch from '../components/BaseSearch.vue'
+import NavBar from "../components/NavBar.vue";
+import BlogContainer from "../components/BlogContainer.vue";
+import BlogCard from "../components/BlogCard.vue";
+import AuthorProfile from "../components/AuthorProfile.vue";
+import BaseSearch from "../components/BaseSearch.vue";
+import { getBlogById } from "../api/blog";
 export default {
-components:{
+  components: {
     NavBar,
     BlogContainer,
     BlogCard,
     BaseSearch,
-    AuthorProfile
-}
-}
+    AuthorProfile,
+  },
+  created() {
+    this.fetchBlogData();
+  },
+  data() {
+    return {
+      blog:{}
+    };
+  },
+  methods: {
+    fetchBlogData() {
+      const id = this.$route.params.id;
+      getBlogById(id)
+        .then((res) => {
+          this.blog = res.data
+        })
+        .catch((err) => {
+          console.log("errro", err);
+        });
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
