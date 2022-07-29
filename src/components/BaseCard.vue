@@ -1,33 +1,28 @@
 <template>
   <div class="card d-flex" @click="handleClick">
     <div class="card-container-main">
-      <div class="card-title"><h2 style="font-weight:400">Title</h2></div>
+      <div class="card-title"><h2 style="font-weight:400">{{blogData.title}}</h2></div>
       <div class="d-flex author-name text-italic align-items">
-        <span class="material-symbols-outlined"> history_edu </span>Rutvik Patel
+        <span class="material-symbols-outlined"> history_edu </span>{{blogData.author}}
       </div>
       <div class="info-text">
         <div class="d-flex align-items"><span class="material-symbols-outlined"> schedule </span><span style="color:rgb(122, 121, 121)">26july 2022 </span>&#8226; <span class="material-symbols-outlined">
       forum
-      </span> <span style="color:rgb(122, 121, 121)">785 comments</span>&#8226;
-      <span class="material-symbols-outlined">category</span><span style="color:rgb(122, 121, 121)">Health</span>
+      </span> <span style="color:rgb(122, 121, 121)">{{blogData.total_comments}}comments</span>&#8226;
+      <span class="material-symbols-outlined">category</span><span style="color:rgb(122, 121, 121)">{{blogData.category}}</span>
       </div>
       </div>
       <div class="card-text-container">
         <div>
           <div class="blog-content-text">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text ever
-            since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged.<a href="#" class="">...Read more</a>
+            {{blogData.content.substring(0,200)}}<a href="#" class="">...Read more</a>
           </div>
         </div>
       </div>
     </div>
     <div class="img-container">
         <img
-          src="https://image.shutterstock.com/image-photo/bloggingblog-concepts-ideas-white-worktable-260nw-1029506242.jpg"
+          :src="blogData.image_url"
           alt="blog-post"
         />
     </div>
@@ -36,9 +31,20 @@
 
 <script>
 export default {
+  props:['blog'],
+  created(){
+    this.blogId = this.blog.id
+    this.blogData = this.blog
+  },
+  data() {
+    return {
+      blogId:"",
+      blogData:{}
+    }
+  },
   methods:{
     handleClick(){
-      this.$router.push({ name: 'Blogpage', params: { id:1 } })
+      this.$router.push({ name: 'Blogpage', params: { id:this.blogId } })
     }
   }
 };
@@ -77,7 +83,8 @@ a {
   }
 }
 img {
-  width: 100%;
+  width: 324px;
+  height: 208px;
 }
 .d-flex{
   display: flex;
