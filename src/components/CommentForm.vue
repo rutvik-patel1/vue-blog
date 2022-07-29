@@ -1,14 +1,14 @@
 <template>
   <div>
-    <form @submit.prevent="">
+    <form @submit.prevent="postAComment">
         <div>
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" v-model.trim="form.name" name="name" required>
         </div>
         <br>
         <div>
             <label for="comment">Comment</label>
-            <textarea name="comment" id="comment" rows="5" placeholder="write comment here..." required></textarea>
+            <textarea name="comment" id="comment" v-model.trim="form.comment" rows="5" placeholder="write comment here..." required></textarea>
         </div>
         <div>
             <button type="submit">Post A Comment</button>
@@ -19,7 +19,26 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            form:{
+                name:'',
+                comment:'',
+            }
+        }
+    },
+    methods:{
+        postAComment(){
+            const data = {
+                name:this.form.name,
+                comment:this.form.comment,
+                timestamp: Date.now()
+            }
+            this.$emit('postComment',data);
+            this.form.name = ""
+            this.form.comment = ""
+        }
+    }
 }
 </script>
 

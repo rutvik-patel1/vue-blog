@@ -1,16 +1,16 @@
 <template>
   <div class="comment-card">
       <div class="comment">
-        <h4>Rutvik </h4>
+        <h4>{{comment.name}} </h4>
         <p class="timestamp">{{new Date().toDateString()}}</p>
-        <p>WonderFul article !!!!!</p>
+        <p>{{comment.comment}}</p>
       </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props:['comment'],
 }
 </script>
 

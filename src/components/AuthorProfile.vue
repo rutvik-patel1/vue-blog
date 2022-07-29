@@ -1,14 +1,14 @@
 <template>
   <div class="profile-card">
     <div class="profile-img">
-        <img src="https://miro.medium.com/fit/c/88/88/1*GLHO0ylz3WlylsOgC_GKIQ.jpeg" alt="profile pic">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="profile pic">
     </div>
-    <div class="author-name">Rutvik Patel</div>
+    <div class="author-name">{{blog.author}}</div>
     <div class="profile-info">
         <ul>
-            <li><span class="material-symbols-outlined">visibility</span>10028 Views</li>
-            <li><span class="material-symbols-outlined">rss_feed</span>56 Blogs</li>
-            <li><span class="material-symbols-outlined">forum</span>125 Comments</li>
+            <li><span class="material-symbols-outlined">visibility</span>{{blog.views}} Views</li>
+            <li><span class="material-symbols-outlined">rss_feed</span>{{blog.total_blogs}} Blogs</li>
+            <li><span class="material-symbols-outlined">forum</span>{{blog.total_comments}} Comments</li>
         </ul>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-
+    props:['blog'],
 }
 </script>
 
