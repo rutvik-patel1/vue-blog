@@ -1,10 +1,21 @@
 <template>
   <div class="category">
     <div class="category-title">Popular Categories</div>
-    <div v-for="(item, index) in category" :key="index" class="category-badge">
-      <router-link :to="{ name: 'Home', query: { category: item } }">{{
-        item
-      }}</router-link>
+    <div class="category-mobile">
+      <span>
+        <router-link :to="{ name: 'Home' }" active-class="active-link" exact>
+          <div class="category-badge">
+           All
+          </div>
+        </router-link>
+      </span>
+      <span v-for="(item, index) in category" :key="index">
+        <router-link :to="{ name: 'Home', query: { category: item } }" active-class="active-link" exact>
+          <div class="category-badge">
+            {{ item }}
+          </div>
+        </router-link>
+      </span>
     </div>
     <br />
   </div>
@@ -55,9 +66,19 @@ export default {
 a {
   color: inherit;
 }
-.category-title{
+.category-title {
   font-weight: 600;
   margin-bottom: 20px;
-  margin-left:3px;
+  margin-left: 3px;
+}
+.active-link .category-badge{
+  background-color: #ddd;
+}
+
+@media all and (max-width: 800px) {
+.category-mobile{
+  display: flex;
+  overflow-x: scroll;
+}
 }
 </style>

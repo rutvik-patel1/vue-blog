@@ -4,6 +4,7 @@
     <blog-container>
       <template v-slot:main>
           <base-card v-for="data in blogs" :key="data.id" :blog="data"></base-card>
+          <div v-if="blogs.length === 0">No data found..! Try Something else....</div>
       </template>
       <template v-slot:sidebar>
           <base-search></base-search>
@@ -47,14 +48,8 @@ export default {
       getAllBlog()
     .then((res)=>{
       this.allBlogs = res.data
-      const category = this.$route.query.category
-      const search = this.$route.query.search
-      if(category){
-        this.allBlogs = res.data.filter(each=>each.category === category)
-      }
-      if(search){
-        this.allBlogs = res.data.filter(each=> each.author.includes(search) || each.title.includes(search))
-      }
+      this.category = this.$route.query.category
+      this.search = this.$route.query.search
     })
     .catch((err)=>{
       console.log("err",err)
@@ -68,7 +63,7 @@ export default {
         return this.allBlogs.filter(each=>each.category === this.category)
       }
       if(this.search){
-        return this.allBlogs.filter(each=> each.author.includes(this.search) || each.title.includes(this.search))
+        return this.allBlogs.filter(each=> each.author.toLowerCase().includes(this.search.toLowerCase()) || each.category.toLowerCase().includes(this.search.toLowerCase()) || each.content.toLowerCase().includes(this.search.toLowerCase()) || each.title.toLowerCase().includes(this.search.toLowerCase()))
       }
       return this.allBlogs 
       }

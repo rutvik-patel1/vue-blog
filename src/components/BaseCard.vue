@@ -76,15 +76,27 @@ a {
 }
 .card-text-container {
   display: flex;
+  text-align: justify;
 }
 @media all and (max-width: 800px) {
   .card-text-container {
     display: block;
+    padding-bottom: 10px;
+  }
+  .card-container-main{
+    flex: 1 0 100%;
+  }
+  .img-container{
+    flex: 1 0 100%;
+  }
+  .card{
+    flex-wrap: wrap;
   }
 }
 img {
   width: 324px;
   height: 208px;
+  max-width: 100%;
 }
 .d-flex{
   display: flex;

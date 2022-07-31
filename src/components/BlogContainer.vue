@@ -27,16 +27,22 @@ export default {
 .sidebar{
     flex:0 0 30%;
     padding:30px;
+    padding-left: 10px;
 }
 @media all and (max-width: 800px) {
 .sidebar{
-    flex:1 0 auto;
+    flex:1 0 100%;
+    padding-bottom: 0px;
     
 }
 .main-container{
     flex:1 0 100%;
     width:100%;
     padding: 18px;
+    padding-top:0px;
+}
+.blog-container{
+    flex-flow: column-reverse;
 }
 }
 
