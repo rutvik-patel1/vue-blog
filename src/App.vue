@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -12,7 +12,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-html{
-font-family: 'Poppins', sans-serif;
+html {
+  font-family: "Poppins", sans-serif;
 }
 </style>

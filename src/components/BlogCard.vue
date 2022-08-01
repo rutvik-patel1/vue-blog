@@ -2,33 +2,41 @@
   <div class="card">
     <div class="line"></div>
     <div class="card-container-main">
-      <div class="card-title"><h2>{{blog.title}}</h2></div>
+      <div class="card-title">
+        <h2>{{ blog.title }}</h2>
+      </div>
       <div
-        class="d-flex author-name text-italic align-items justify-content-center"
+        class="
+          d-flex
+          author-name
+          text-italic
+          align-items
+          justify-content-center
+        "
       >
-        <span class="material-symbols-outlined"> history_edu </span>{{blog.author}}
+        <span class="material-symbols-outlined"> history_edu </span
+        >{{ blog.author }}
       </div>
       <div class="info-text">
         <div class="d-flex align-items justify-content-center">
           <span class="material-symbols-outlined"> schedule </span
           ><span style="color: rgb(122, 121, 121)">26july 2022 </span>&#8226;
           <span class="material-symbols-outlined"> forum </span>
-          <span style="color: rgb(122, 121, 121)">{{blog.comments.length}} comments</span>
+          <span style="color: rgb(122, 121, 121)"
+            >{{ blog.comments.length }} comments</span
+          >&#8226;
           <span class="material-symbols-outlined">category</span>
-          <span style="color:rgb(122, 121, 121)">{{blog.category}}</span>
+          <span style="color: rgb(122, 121, 121)">{{ blog.category }}</span>
         </div>
       </div>
       <div class="img-container">
-        <img
-          :src="blog.image_url"
-          alt="blog-post"
-        />
+        <img :src="blog.image_url" alt="blog-post" />
       </div>
       <div class="card-text-container">
         <div>
           <div class="blog-content-text">
             <p>
-              {{blog.content}}
+              {{ blog.content }}
             </p>
             <br />
           </div>
@@ -36,38 +44,43 @@
       </div>
     </div>
     <div class="blog-comment-container">
-      <div class="card-title " style="color: rgb(156, 156, 156);"><h2>Comments</h2></div>
+      <div class="card-title" style="color: rgb(156, 156, 156)">
+        <h2>Comments</h2>
+      </div>
       <comment-form :id="blog.id" @postComment="postComment"></comment-form>
-      <base-comment v-for="(data,index) in comments" :comment="data" :key="index"></base-comment>
+      <base-comment
+        v-for="(data, index) in comments"
+        :comment="data"
+        :key="index"
+      ></base-comment>
     </div>
   </div>
 </template>
 
 <script>
-import CommentForm from '../components/CommentForm.vue'
-import BaseComment from '../components/BaseComment.vue';
+import CommentForm from "../components/CommentForm.vue";
+import BaseComment from "../components/BaseComment.vue";
 export default {
-  props:['blog'],
+  props: ["blog"],
   data() {
     return {
-      commentData:this.blog.comments
-    }
+      commentData: this.blog.comments,
+    };
   },
-  components:{
+  components: {
     CommentForm,
-    BaseComment
+    BaseComment,
   },
-  methods:{
-    postComment(data){
-      this.commentData = [...this.commentData,data]
-    }
+  methods: {
+    postComment(data) {
+      this.commentData = [...this.commentData, data];
+    },
   },
-  computed:{
-    comments(){
-      return this.commentData 
-    }
-  }
-
+  computed: {
+    comments() {
+      return this.commentData;
+    },
+  },
 };
 </script>
 
@@ -139,6 +152,7 @@ span {
   text-align: justify;
   margin-right: 20px;
   font-weight: 400;
+  white-space: pre-line;
 }
 .card-title {
   padding: 0 7px;

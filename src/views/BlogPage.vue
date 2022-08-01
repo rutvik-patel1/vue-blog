@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      blog:{}
+      blog: {},
     };
   },
   methods: {
@@ -42,7 +42,7 @@ export default {
       const id = this.$route.params.id;
       getBlogById(id)
         .then((res) => {
-          this.blog = res.data
+          this.blog = res.data;
         })
         .catch((err) => {
           console.log("errro", err);
