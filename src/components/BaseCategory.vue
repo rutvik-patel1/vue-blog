@@ -4,13 +4,15 @@
     <div class="category-mobile">
       <span>
         <router-link :to="{ name: 'Home' }" active-class="active-link" exact>
-          <div class="category-badge">
-           All
-          </div>
+          <div class="category-badge">All</div>
         </router-link>
       </span>
       <span v-for="(item, index) in category" :key="index">
-        <router-link :to="{ name: 'Home', query: { category: item } }" active-class="active-link" exact>
+        <router-link
+          :to="{ name: 'Home', query: { category: item } }"
+          active-class="active-link"
+          exact
+        >
           <div class="category-badge">
             {{ item }}
           </div>
@@ -57,7 +59,7 @@ export default {
   text-align: center;
   display: inline-flex;
   border: 1px solid #ccc;
-  padding: 6px 8px;
+  padding: 6px 15px;
   margin: 5px;
 }
 .category-badge:hover {
@@ -71,14 +73,14 @@ a {
   margin-bottom: 20px;
   margin-left: 3px;
 }
-.active-link .category-badge{
+.active-link .category-badge {
   background-color: #ddd;
 }
 
 @media all and (max-width: 800px) {
-.category-mobile{
-  display: flex;
-  overflow-x: scroll;
-}
+  .category-mobile {
+    display: flex;
+    overflow-x: scroll;
+  }
 }
 </style>

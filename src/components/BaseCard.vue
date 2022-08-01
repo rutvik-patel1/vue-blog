@@ -1,61 +1,68 @@
 <template>
   <div class="card d-flex" @click="handleClick">
     <div class="card-container-main">
-      <div class="card-title"><h2 style="font-weight:400">{{blogData.title}}</h2></div>
+      <div class="card-title">
+        <h2 style="font-weight: 400">{{ blogData.title }}</h2>
+      </div>
       <div class="d-flex author-name text-italic align-items">
-        <span class="material-symbols-outlined"> history_edu </span>{{blogData.author}}
+        <span class="material-symbols-outlined"> history_edu </span
+        >{{ blogData.author }}
       </div>
       <div class="info-text">
-        <div class="d-flex align-items"><span class="material-symbols-outlined"> schedule </span><span style="color:rgb(122, 121, 121)">26july 2022 </span>&#8226; <span class="material-symbols-outlined">
-      forum
-      </span> <span style="color:rgb(122, 121, 121)">{{blogData.total_comments}}comments</span>&#8226;
-      <span class="material-symbols-outlined">category</span><span style="color:rgb(122, 121, 121)">{{blogData.category}}</span>
-      </div>
+        <div class="d-flex align-items">
+          <span class="material-symbols-outlined"> schedule </span
+          ><span style="color: rgb(122, 121, 121)">26july 2022 </span>&#8226;
+          <span class="material-symbols-outlined"> forum </span>
+          <span style="color: rgb(122, 121, 121)"
+            >{{ blogData.total_comments }}comments</span
+          >&#8226; <span class="material-symbols-outlined">category</span
+          ><span style="color: rgb(122, 121, 121)">{{
+            blogData.category
+          }}</span>
+        </div>
       </div>
       <div class="card-text-container">
         <div>
           <div class="blog-content-text">
-            {{blogData.content.substring(0,200)}}<a href="#" class="">...Read more</a>
+            {{ blogData.content.substring(0, 200)
+            }}<a href="#" class="">...Read more</a>
           </div>
         </div>
       </div>
     </div>
     <div class="img-container">
-        <img
-          :src="blogData.image_url"
-          alt="blog-post"
-        />
+      <img :src="blogData.image_url" alt="blog-post" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props:['blog'],
-  created(){
-    this.blogId = this.blog.id
-    this.blogData = this.blog
+  props: ["blog"],
+  created() {
+    this.blogId = this.blog.id;
+    this.blogData = this.blog;
   },
   data() {
     return {
-      blogId:"",
-      blogData:{}
-    }
+      blogId: "",
+      blogData: {},
+    };
   },
-  methods:{
-    handleClick(){
-      this.$router.push({ name: 'Blogpage', params: { id:this.blogId } })
-    }
-  }
+  methods: {
+    handleClick() {
+      this.$router.push({ name: "Blogpage", params: { id: this.blogId } });
+    },
+  },
 };
 </script>
 
 <style scoped>
-.card-container-main{
-  flex:0 0 60%;
+.card-container-main {
+  flex: 0 0 60%;
 }
-.img-container{
-  flex:0 0 40%;
+.img-container {
+  flex: 0 0 40%;
 }
 .card {
   border: 1px solid #ccc;
@@ -67,12 +74,12 @@ export default {
   display: flex;
 }
 .card:hover {
-box-shadow: 0 5px 12px rgba(0, 0, 0, 10%);
-transform: scale(1.01);
-/* border: none; */
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 10%);
+  transform: scale(1.01);
+  /* border: none; */
 }
 a {
-  color:rgb(156, 156, 156)
+  color: rgb(156, 156, 156);
 }
 .card-text-container {
   display: flex;
@@ -83,13 +90,13 @@ a {
     display: block;
     padding-bottom: 10px;
   }
-  .card-container-main{
+  .card-container-main {
     flex: 1 0 100%;
   }
-  .img-container{
+  .img-container {
     flex: 1 0 100%;
   }
-  .card{
+  .card {
     flex-wrap: wrap;
   }
 }
@@ -98,39 +105,37 @@ img {
   height: 208px;
   max-width: 100%;
 }
-.d-flex{
+.d-flex {
   display: flex;
 }
-.author-name{
+.author-name {
   margin-bottom: 10px;
   color: rgb(122, 121, 121);
 }
-.material-symbols-outlined{
-  color:rgb(122, 121, 121);
+.material-symbols-outlined {
+  color: rgb(122, 121, 121);
   font-size: 16px;
 }
-.align-items{
+.align-items {
   align-items: center;
 }
-.info-text{
+.info-text {
   font-size: 14px;
   margin-bottom: 10px;
 }
-.text-italic{
+.text-italic {
   font-style: italic;
 }
-span{
-  margin:0 5px;
+span {
+  margin: 0 5px;
 }
-.blog-content-text{
+.blog-content-text {
   text-align: justify;
-  margin-right:20px;
+  margin-right: 20px;
 }
-.card-title{
+.card-title {
   padding: 0 7px;
   color: hsl(209, 40%, 15%);
   /* font-style: italic; */
 }
-
-
 </style>
