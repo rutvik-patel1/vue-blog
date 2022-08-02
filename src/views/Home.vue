@@ -62,6 +62,15 @@ export default {
   },
   computed: {
     blogs() {
+      if(this.category && this.search){
+        return this.allBlogs.filter((each) => each.category === this.category).filter(
+          (each) =>
+            each.title.toLowerCase().includes(this.search.toLowerCase())||
+            each.author.toLowerCase().includes(this.search.toLowerCase()) ||
+            each.category.toLowerCase().includes(this.search.toLowerCase()) ||
+            each.content.toLowerCase().includes(this.search.toLowerCase())
+        );
+      }
       if (this.category) {
         return this.allBlogs.filter((each) => each.category === this.category);
       }

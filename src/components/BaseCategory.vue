@@ -9,7 +9,8 @@
       </span>
       <span v-for="(item, index) in category" :key="index">
         <router-link
-          :to="{ name: 'Home', query: { category: item } }"
+          
+          :to="{ query: Object.assign({}, existingQueries, { category: item }) }"
           active-class="active-link"
           exact
         >
@@ -48,6 +49,11 @@ export default {
       ],
     };
   },
+  computed:{
+    existingQueries(){
+      return this.$route.query
+    }
+  }
 };
 </script>
 
