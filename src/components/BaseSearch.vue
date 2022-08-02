@@ -24,7 +24,7 @@ export default {
   methods: {
     handleSearch() {
       if (this.search) {
-        this.$router.push({ name: "Home", query: { search: this.search } });
+        this.$router.push({ name:'Home', query: Object.assign({}, this.$route.query, { search: this.search }) });
         this.search = "";
       } else {
         this.isError = true;
