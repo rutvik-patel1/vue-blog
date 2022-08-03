@@ -2,11 +2,11 @@
   <div class="card d-flex" @click="handleClick">
     <div class="card-container-main">
       <div class="card-title">
-        <h2 style="font-weight: 400">{{ blogData.title }}</h2>
+        <h2 style="font-weight: 400">{{ blog.title }}</h2>
       </div>
       <div class="d-flex author-name text-italic align-items">
         <span class="material-symbols-outlined"> history_edu </span
-        >{{ blogData.author }}
+        >{{ blog.author }}
       </div>
       <div class="info-text">
         <div class="d-flex align-items">
@@ -14,24 +14,24 @@
           ><span style="color: rgb(122, 121, 121)">26july 2022 </span>&#8226;
           <span class="material-symbols-outlined"> forum </span>
           <span style="color: rgb(122, 121, 121)"
-            >{{ blogData.total_comments }}comments</span
+            >{{ blog.total_comments }}comments</span
           >&#8226; <span class="material-symbols-outlined">category</span
           ><span style="color: rgb(122, 121, 121)">{{
-            blogData.category
+            blog.category
           }}</span>
         </div>
       </div>
       <div class="card-text-container">
         <div>
           <div class="blog-content-text">
-            {{ blogData.content.substring(0, 200)
+            {{ blog.content.substring(0, 200)
             }}<a href="#" class="">...Read more</a>
           </div>
         </div>
       </div>
     </div>
     <div class="img-container">
-      <img :src="blogData.image_url" alt="blog-post" />
+      <img :src="blog.image_url" alt="blog-post" />
     </div>
   </div>
 </template>
@@ -41,12 +41,11 @@ export default {
   props: ["blog"],
   created() {
     this.blogId = this.blog.id;
-    this.blogData = this.blog;
+  
   },
   data() {
     return {
       blogId: "",
-      blogData: {},
     };
   },
   methods: {

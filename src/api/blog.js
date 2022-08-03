@@ -2,7 +2,7 @@ import axios from './index';
 
 export function getBlogById(id) {
   return axios({
-    url: `/blogs/${id}.json`,
+    url: `/blogs/${id-1}.json`,
     method: "get"
   })
 }
