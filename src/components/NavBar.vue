@@ -4,7 +4,7 @@
       <div class="nav-header">
         <img src="../assets/logo.png" class="logo" alt="logo" />
         <h1 class="links" style="font-weight: 400; color: hsl(209, 34%, 30%)">
-          Blog
+          <router-link class="links" to="/">Blog</router-link>
         </h1>
         <button class="nav-toggle" @click="toggleNavbar">
           <span class="material-symbols-rounded">{{
@@ -14,11 +14,8 @@
       </div>
       <div :class="[isVisible ? 'fixed-height' : '']" class="links-container">
         <ul class="links">
-          <li>
-            <a>Subscribe</a>
-          </li>
-          <li>
-            <a>Login</a>
+          <li v-for="(link,index) in navlinks" :key="index">
+            <router-link :to="link.path">{{link.name}}</router-link>
           </li>
         </ul>
       </div>
@@ -32,6 +29,16 @@ export default {
   data() {
     return {
       isVisible: false,
+      navlinks:[
+        {
+          path:'/',
+          name:'Subscribe'   
+        },
+        {
+          path:'/',
+          name:'Login'   
+        }
+      ]
     };
   },
   methods: {
