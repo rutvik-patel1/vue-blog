@@ -5,6 +5,11 @@
 npm install
 ```
 
+### Create .env file
+```
+VUE_APP_BASE_API=XXXXXXXXXXXX
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
