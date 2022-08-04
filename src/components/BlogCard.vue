@@ -60,21 +60,43 @@
 <script>
 import CommentForm from "../components/CommentForm.vue";
 import BaseComment from "../components/BaseComment.vue";
+import {getAllComments,postComment} from "../api/blog"
 export default {
   props: ["blog"],
   data() {
     return {
-      commentData: this.blog.comments,
+      commentData: [],
     };
   },
   components: {
     CommentForm,
     BaseComment,
   },
+  created(){
+    this.getComments()
+  },
   methods: {
     postComment(data) {
-      this.commentData = [...this.commentData, data];
+      postComment(this.blog.id-1,data)
+      .then((res)=>{
+        console.log(res)
+        this.getComments()
+      })
+      .catch((err)=>{
+        console.log("error in posting",err)
+      })
+      // this.commentData = [...this.commentData, data];
     },
+    getComments(){
+      getAllComments(this.blog.id-1)
+      .then((res)=>{
+        console.log(res.data)
+        this.commentData = res.data
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    }
   },
   computed: {
     comments() {

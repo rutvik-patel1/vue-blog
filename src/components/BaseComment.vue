@@ -2,7 +2,7 @@
   <div class="comment-card">
     <div class="comment">
       <h4>{{ comment.name }}</h4>
-      <p class="timestamp">{{ new Date().toDateString() }}</p>
+      <p class="timestamp">{{ comment.timestamp }}</p>
       <p>{{ comment.comment }}</p>
     </div>
   </div>
