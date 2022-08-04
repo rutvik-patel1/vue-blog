@@ -8,9 +8,10 @@
           :key="data.id"
           :blog="data"
         ></base-card>
-        <div v-if="blogs.length === 0">
+        <div class="no-data-text" v-if="blogs.length === 0">
           No data found..! Try Something else....
         </div>
+        <suggestion-blog v-if="blogs.length === 0" />
       </template>
       <template v-slot:sidebar>
         <base-search></base-search>
@@ -27,6 +28,7 @@ import BaseCard from "../components/BaseCard.vue";
 import BaseSearch from "../components/BaseSearch.vue";
 import BaseCategory from "../components/BaseCategory.vue";
 import { getAllBlog } from "../api/blog";
+import SuggestionBlog from "../components/SuggestionBlog.vue";
 
 export default {
   name: "Home",
@@ -36,7 +38,8 @@ export default {
     BaseCard,
     BaseSearch,
     BaseCategory,
-  },
+    SuggestionBlog
+},
   created() {
     this.fetchBlogs();
   },
@@ -97,3 +100,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.no-data-text{
+  font-size: 28px;
+  font-weight: 600;
+}
+
+</style>

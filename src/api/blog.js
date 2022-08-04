@@ -2,14 +2,14 @@ import axios from './index';
 
 export function getBlogById(id) {
   return axios({
-    url: "/" + id,
+    url: `/blogs/${id-1}.json`,
     method: "get"
   })
 }
 
 export function getAllBlog() {
   return axios({
-    url: "/",
+    url: `/blogs.json`,
     method: "get"
   })
 }

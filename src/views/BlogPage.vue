@@ -10,7 +10,6 @@
         <author-profile :blog="blog"></author-profile>
       </template>
     </blog-container>
-    <div v-else>No Data Found</div>
   </div>
 </template>
 
@@ -42,7 +41,12 @@ export default {
       const id = this.$route.params.id;
       getBlogById(id)
         .then((res) => {
-          this.blog = res.data;
+          if(res.data){
+            this.blog = res.data;
+          }
+          else{
+            this.$router.push({ name : '404'})
+          }
         })
         .catch((err) => {
           console.log("errro", err);
