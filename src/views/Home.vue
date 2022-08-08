@@ -23,7 +23,7 @@
 
 <script>
 import NavBar from "../components/NavBar.vue";
-import BlogContainer from "../components/BlogContainer.vue";
+import BlogContainer from "../layout/BlogContainer.vue";
 import BaseCard from "../components/BaseCard.vue";
 import BaseSearch from "../components/BaseSearch.vue";
 import BaseCategory from "../components/BaseCategory.vue";

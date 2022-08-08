@@ -15,7 +15,7 @@
 
 <script>
 import NavBar from "../components/NavBar.vue";
-import BlogContainer from "../components/BlogContainer.vue";
+import BlogContainer from "../layout/BlogContainer.vue";
 import BlogCard from "../components/BlogCard.vue";
 import AuthorProfile from "../components/AuthorProfile.vue";
 import BaseSearch from "../components/BaseSearch.vue";
