@@ -45,7 +45,7 @@ export default {
       const data = {
         name: this.form.name,
         comment: this.form.comment,
-        timestamp: Date.now(),
+        timestamp: new Date().toDateString(),
       };
       this.$emit("postComment", data);
       this.form.name = "";

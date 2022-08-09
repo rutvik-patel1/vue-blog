@@ -14,7 +14,7 @@
           ><span style="color: rgb(122, 121, 121)">26july 2022 </span>&#8226;
           <span class="material-symbols-outlined"> forum </span>
           <span style="color: rgb(122, 121, 121)"
-            >{{ blog.total_comments }}comments</span
+            >{{ blog.comments.length }}comments</span
           >&#8226; <span class="material-symbols-outlined">category</span
           ><span style="color: rgb(122, 121, 121)">{{
             blog.category
@@ -39,10 +39,6 @@
 <script>
 export default {
   props: ["blog"],
-  created() {
-    this.blogId = this.blog.id;
-  
-  },
   data() {
     return {
       blogId: "",
@@ -50,7 +46,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$router.push({ name: "Blogpage", params: { id: this.blogId } });
+      this.$router.push({ name: "Blogpage", params: { id: this.blog.id } });
     },
   },
 };

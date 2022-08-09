@@ -19,7 +19,7 @@
         </li>
         <li>
           <span class="material-symbols-outlined">forum</span
-          >{{ blog.total_comments }} Comments
+          >{{ blog.comments.length }} Comments
         </li>
       </ul>
     </div>

@@ -24,21 +24,13 @@
 </template>
 
 <script>
+import navlinks from '../utils/navigation';
 export default {
   name: "Navbar",
   data() {
     return {
       isVisible: false,
-      navlinks:[
-        {
-          path:'/',
-          name:'Subscribe'   
-        },
-        {
-          path:'/',
-          name:'Login'   
-        }
-      ]
+      navlinks
     };
   },
   methods: {
