@@ -39,10 +39,6 @@
 <script>
 export default {
   props: ["blog"],
-  created() {
-    this.blogId = this.blog.id;
-  
-  },
   data() {
     return {
       blogId: "",
@@ -50,7 +46,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$router.push({ name: "Blogpage", params: { id: this.blogId } });
+      this.$router.push({ name: "Blogpage", params: { id: this.blog.id } });
     },
   },
 };
