@@ -10,7 +10,11 @@
 
 <script>
 export default {
-  props: ["comment"],
+  props: {
+    comment:{
+      type: Object
+    }
+  }
 };
 </script>
 

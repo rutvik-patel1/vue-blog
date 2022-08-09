@@ -28,7 +28,11 @@
 
 <script>
 export default {
-  props: ["blog"],
+  props: {
+    blog:{
+      type: Object
+    }
+  }
 };
 </script>
 

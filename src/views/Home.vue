@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div v-if="isLoading">Loading...</div>
+    <div v-else>
+      <div>
     <nav-bar></nav-bar>
     <blog-container>
       <template v-slot:main>
@@ -18,6 +21,8 @@
         <base-category></base-category>
       </template>
     </blog-container>
+  </div>
+    </div>
   </div>
 </template>
 
@@ -48,18 +53,22 @@ export default {
       allBlogs: [],
       category: "",
       search: "",
+      isLoading:false
     };
   },
   methods: {
     fetchBlogs() {
+      this.isLoading = true
       getAllBlog()
         .then((res) => {
           this.allBlogs = res.data;
           this.category = this.$route.query.category;
           this.search = this.$route.query.search;
+          this.isLoading = false
         })
         .catch((err) => {
           console.log("err", err);
+          this.isLoading = false
         });
     },
   },
@@ -92,8 +101,10 @@ export default {
   watch: {
     $route: {
       handler: function (to) {
+        this.isLoading = true
         this.category = to.query.category;
         this.search = to.query.search;
+        this.isLoading = false
       },
       deep: true,
     },
