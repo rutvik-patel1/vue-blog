@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { registerWithFirebase } from "../api/auth";
 export default {
   created() {},
   data() {
@@ -81,7 +82,13 @@ export default {
       if (this.validate) {
         return false;
       }
-      console.log("true");
+      registerWithFirebase(this.email, this.password)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.code);
+        });
     },
   },
   computed: {
@@ -94,14 +101,21 @@ export default {
     isValidPassword() {
       return this.password == "" || this.password.length < 6;
     },
-     isValidName(){
-      return (this.name == '')
+    isValidName() {
+      return this.name == "";
     },
-    isValidConfiremedPassword(){
-      return (this.confirmedPassword == '' || this.password !== this.confirmedPassword)
+    isValidConfiremedPassword() {
+      return (
+        this.confirmedPassword == "" || this.password !== this.confirmedPassword
+      );
     },
     validate() {
-      return (this.isValidEmail || this.isValidPassword || this.isValidConfiremedPassword || this.isValidName)
+      return (
+        this.isValidEmail ||
+        this.isValidPassword ||
+        this.isValidConfiremedPassword ||
+        this.isValidName
+      );
     },
   },
 };

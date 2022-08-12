@@ -9,9 +9,13 @@
         v-model.trim="email"
         autocomplete="off"
         placeholder="example@gmail.com"
-        :style="[(isSubmitted && isValidEmail)? {'border':'1px solid red'}:'']"
+        :style="[
+          isSubmitted && isValidEmail ? { border: '1px solid red' } : '',
+        ]"
       />
-      <div class="form-error" v-if="isSubmitted && isValidEmail">Enter valid email.</div>
+      <div class="form-error" v-if="isSubmitted && isValidEmail">
+        Enter valid email.
+      </div>
       <label for="password">Password</label>
       <input
         id="password"
@@ -19,9 +23,13 @@
         v-model.trim="password"
         autocomplete="off"
         placeholder="Enter password"
-        :style="[(isSubmitted && isValidPassword)? {'border':'1px solid red'}:'']"
+        :style="[
+          isSubmitted && isValidPassword ? { border: '1px solid red' } : '',
+        ]"
       />
-      <div class="form-error" v-if="isSubmitted && isValidPassword">Enter 6 digit password.</div>
+      <div class="form-error" v-if="isSubmitted && isValidPassword">
+        Enter 6 digit password.
+      </div>
       <button type="submit">{{ isLoading ? "wait...." : "Sign In" }}</button>
     </form>
     <router-link to="/signup">
@@ -32,6 +40,7 @@
 
 
 <script>
+import { loginWithFirebase } from "../api/auth";
 export default {
   created() {},
   data() {
@@ -39,29 +48,34 @@ export default {
       email: "",
       password: "",
       isLoading: false,
-      isSubmitted:false
+      isSubmitted: false,
     };
   },
   methods: {
     login() {
       this.isSubmitted = true;
-      if(this.validate){
-        return false
+      if (this.validate) {
+        return false;
       }
-      console.log("true")
+      loginWithFirebase(this.email, this.password).then((res) => {
+        console.log(res.data);
+      });
     },
   },
-  computed:{
-    isValidEmail(){
-      return (this.email == '' || (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(this.email) != true))
+  computed: {
+    isValidEmail() {
+      return (
+        this.email == "" ||
+        /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(this.email) != true
+      );
     },
-    isValidPassword(){
-      return (this.password == '' || this.password.length < 6)
+    isValidPassword() {
+      return this.password == "" || this.password.length < 6;
     },
-    validate(){
-      return ( this.isValidEmail || this.isValidPassword )
-    }
-  }
+    validate() {
+      return this.isValidEmail || this.isValidPassword;
+    },
+  },
 };
 </script>
 
@@ -72,7 +86,8 @@ export default {
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),5px 5px 29px 4px rgba(0,0,0,0.1);
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    5px 5px 29px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   display: block;
   max-width: 500px;
@@ -130,19 +145,19 @@ export default {
 .underline {
   text-decoration: underline;
 }
-.form-error{
+.form-error {
   text-align: initial;
   margin-top: -16px;
   color: red;
   font-size: small;
   margin-bottom: 5px;
 }
-.red-border{
+.red-border {
   border: 1px soilid red !important;
 }
 @media all and (max-width: 800px) {
-  .auth-container{
+  .auth-container {
     box-shadow: none;
   }
-} 
+}
 </style>
