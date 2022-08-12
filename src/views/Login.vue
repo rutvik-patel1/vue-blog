@@ -1,23 +1,27 @@
 <template>
   <div class="auth-container">
     <div class="title" style="color: #000">Login</div>
-    <form @submit.prevent="login">
+    <form @submit.prevent="login" autocomplete="off">
       <label for="email">Email</label>
       <input
         id="email"
         type="email"
-        v-model="email"
+        v-model.trim="email"
+        autocomplete="off"
         placeholder="example@gmail.com"
+        :style="[(isSubmitted && isValidEmail)? {'border':'1px solid red'}:'']"
       />
-      <div class="form-error" v-if="isSubmitted && validEmail">Enter valid email.</div>
+      <div class="form-error" v-if="isSubmitted && isValidEmail">Enter valid email.</div>
       <label for="password">Password</label>
       <input
         id="password"
         type="password"
-        v-model="password"
+        v-model.trim="password"
+        autocomplete="off"
         placeholder="Enter password"
+        :style="[(isSubmitted && isValidPassword)? {'border':'1px solid red'}:'']"
       />
-      <div class="form-error" v-if="isSubmitted && validPassword">Enter 6 digit password.</div>
+      <div class="form-error" v-if="isSubmitted && isValidPassword">Enter 6 digit password.</div>
       <button type="submit">{{ isLoading ? "wait...." : "Sign In" }}</button>
     </form>
     <router-link to="/signup">
@@ -32,17 +36,32 @@ export default {
   created() {},
   data() {
     return {
-      email: "rutvik@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
       isLoading: false,
-      isSubmitted:''
+      isSubmitted:false
     };
   },
   methods: {
     login() {
-      
+      this.isSubmitted = true;
+      if(this.validate){
+        return false
+      }
+      console.log("true")
     },
   },
+  computed:{
+    isValidEmail(){
+      return (this.email == '' || (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(this.email) != true))
+    },
+    isValidPassword(){
+      return (this.password == '' || this.password.length < 6)
+    },
+    validate(){
+      return ( this.isValidEmail || this.isValidPassword )
+    }
+  }
 };
 </script>
 
@@ -118,7 +137,9 @@ export default {
   font-size: small;
   margin-bottom: 5px;
 }
-
+.red-border{
+  border: 1px soilid red !important;
+}
 @media all and (max-width: 800px) {
   .auth-container{
     box-shadow: none;
