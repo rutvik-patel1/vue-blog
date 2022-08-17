@@ -28,3 +28,15 @@ export function registerWithFirebase(email, password) {
     })
 }
 
+export function resetpasswordWithFirebase(email) {
+    const payload = {
+        email,
+        requestType: "PASSWORD_RESET"
+    }
+    return axios({
+        url: `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${AUTH_API}`,
+        method: "post",
+        data:payload
+    })
+}
+
