@@ -1,8 +1,9 @@
+import Cookies from 'js-cookie';
 import axios from './index';
 
 const AUTH_API = process.env.VUE_APP_FIREBASE_API
 
-export function loginWithFirebase(email,password) {
+export function loginWithFirebase(email, password) {
     const payload = {
         email,
         password,
@@ -11,7 +12,7 @@ export function loginWithFirebase(email,password) {
     return axios({
         url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${AUTH_API}`,
         method: "post",
-        data:payload
+        data: payload
     })
 }
 
@@ -24,7 +25,7 @@ export function registerWithFirebase(email, password) {
     return axios({
         url: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${AUTH_API}`,
         method: "post",
-        data:payload
+        data: payload
     })
 }
 
@@ -36,7 +37,20 @@ export function resetpasswordWithFirebase(email) {
     return axios({
         url: `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${AUTH_API}`,
         method: "post",
-        data:payload
+        data: payload
     })
 }
 
+export function getNewAccessToken() {
+    const token = Cookies.get('refreshToken')
+    const payload = {
+        grant_type: "refresh_token",
+        refresh_token: token
+    }
+    return axios({
+        url: `https://securetoken.googleapis.com/v1/token?key=${AUTH_API}`,
+        method: "post",
+        data: payload
+    })
+
+}

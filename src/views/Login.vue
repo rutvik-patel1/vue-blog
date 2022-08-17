@@ -32,10 +32,12 @@
           Enter 6 digit password.
         </div>
         <button type="submit">{{ isLoading ? "wait...." : "Sign In" }}</button>
+        <br />
       </form>
       <router-link to="/signup">
         Don't have an account ?<span class="underline"> Register!</span>
-      </router-link> <br>
+      </router-link>
+      <br />
       <router-link to="/resetpass">
         Forget Password ?<span class="underline"> Reset</span>
       </router-link>
@@ -46,6 +48,7 @@
 
 <script>
 import { loginWithFirebase } from "../api/auth";
+import Cookies from "js-cookie";
 export default {
   created() {},
   data() {
@@ -62,9 +65,15 @@ export default {
       if (this.validate) {
         return false;
       }
-      loginWithFirebase(this.email, this.password).then((res) => {
-        console.log(res.data);
-      });
+      loginWithFirebase(this.email, this.password)
+        .then((res) => {
+          Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+          Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+          this.$router.push({ name: "Home" });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   computed: {
@@ -72,7 +81,9 @@ export default {
       return (
         this.email == "" ||
         // eslint-disable-next-line no-useless-escape
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email) != true
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          this.email
+        ) != true
       );
     },
     isValidPassword() {
@@ -162,10 +173,10 @@ export default {
 .red-border {
   border: 1px soilid red !important;
 }
-.auth-main-container{
-    height: 100vh;
-    background-color: whitesmoke;
-    padding-top: 40px;
+.auth-main-container {
+  height: 100vh;
+  background-color: whitesmoke;
+  padding-top: 40px;
 }
 @media all and (max-width: 800px) {
   .auth-container {

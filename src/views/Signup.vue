@@ -1,5 +1,4 @@
 <template>
-
   <div class="auth-main-container">
     <div class="auth-container">
       <div class="title">Register</div>
@@ -10,7 +9,9 @@
           type="text"
           v-model.trim="name"
           placeholder="Enter Name"
-          :style="[isSubmitted && isValidName ? { border: '1px solid red' } : '']"
+          :style="[
+            isSubmitted && isValidName ? { border: '1px solid red' } : '',
+          ]"
         />
         <div class="form-error" v-if="isSubmitted && isValidName">
           Enter valid name.
@@ -68,6 +69,7 @@
 
 <script>
 import { registerWithFirebase } from "../api/auth";
+import Cookies from "js-cookie";
 export default {
   created() {},
   data() {
@@ -87,7 +89,9 @@ export default {
       }
       registerWithFirebase(this.email, this.password)
         .then((res) => {
-          console.log(res.data);
+          Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+          Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+          this.$router.push({ name: "Home" });
         })
         .catch((err) => {
           console.log(err.code);
@@ -99,7 +103,9 @@ export default {
       return (
         this.email == "" ||
         // eslint-disable-next-line no-useless-escape
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email) != true
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          this.email
+        ) != true
       );
     },
     isValidPassword() {
