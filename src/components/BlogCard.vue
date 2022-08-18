@@ -62,7 +62,11 @@ import CommentForm from "../components/CommentForm.vue";
 import BaseComment from "../components/BaseComment.vue";
 import {getAllComments,postComment} from "../api/blog"
 export default {
-  props: ["blog"],
+  props: {
+    blog:{
+      type:Object
+    }
+  },
   data() {
     return {
       commentData: [],

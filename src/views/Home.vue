@@ -1,23 +1,26 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
-    <blog-container>
-      <template v-slot:main>
-        <base-card
-          v-for="data in blogs"
-          :key="data.id"
-          :blog="data"
-        ></base-card>
-        <div class="no-data-text" v-if="blogs.length === 0">
-          No data found..! Try Something else....
-        </div>
-        <suggestion-blog v-if="blogs.length === 0" />
-      </template>
-      <template v-slot:sidebar>
-        <base-search></base-search>
-        <base-category></base-category>
-      </template>
-    </blog-container>
+    <div v-if="isLoading">Loading...</div>
+    <div v-else>
+        <nav-bar></nav-bar>
+        <blog-container>
+          <template v-slot:main>
+            <base-card
+              v-for="data in blogs"
+              :key="data.id"
+              :blog="data"
+            ></base-card>
+            <div class="no-data-text" v-if="blogs.length === 0">
+              No data found..! Try Something else....
+            </div>
+            <suggestion-blog v-if="blogs.length === 0" />
+          </template>
+          <template v-slot:sidebar>
+            <base-search></base-search>
+            <base-category></base-category>
+          </template>
+        </blog-container>
+    </div>
   </div>
 </template>
 
@@ -38,8 +41,8 @@ export default {
     BaseCard,
     BaseSearch,
     BaseCategory,
-    SuggestionBlog
-},
+    SuggestionBlog,
+  },
   created() {
     this.fetchBlogs();
   },
@@ -48,31 +51,37 @@ export default {
       allBlogs: [],
       category: "",
       search: "",
+      isLoading: false,
     };
   },
   methods: {
     fetchBlogs() {
+      this.isLoading = true;
       getAllBlog()
         .then((res) => {
           this.allBlogs = res.data;
           this.category = this.$route.query.category;
           this.search = this.$route.query.search;
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log("err", err);
+          this.isLoading = false;
         });
     },
   },
   computed: {
     blogs() {
-      if(this.category && this.search){
-        return this.allBlogs.filter((each) => each.category === this.category).filter(
-          (each) =>
-            each.title.toLowerCase().includes(this.search.toLowerCase())||
-            each.author.toLowerCase().includes(this.search.toLowerCase()) ||
-            each.category.toLowerCase().includes(this.search.toLowerCase()) ||
-            each.content.toLowerCase().includes(this.search.toLowerCase())
-        );
+      if (this.category && this.search) {
+        return this.allBlogs
+          .filter((each) => each.category === this.category)
+          .filter(
+            (each) =>
+              each.title.toLowerCase().includes(this.search.toLowerCase()) ||
+              each.author.toLowerCase().includes(this.search.toLowerCase()) ||
+              each.category.toLowerCase().includes(this.search.toLowerCase()) ||
+              each.content.toLowerCase().includes(this.search.toLowerCase())
+          );
       }
       if (this.category) {
         return this.allBlogs.filter((each) => each.category === this.category);
@@ -80,7 +89,7 @@ export default {
       if (this.search) {
         return this.allBlogs.filter(
           (each) =>
-            each.title.toLowerCase().includes(this.search.toLowerCase())||
+            each.title.toLowerCase().includes(this.search.toLowerCase()) ||
             each.author.toLowerCase().includes(this.search.toLowerCase()) ||
             each.category.toLowerCase().includes(this.search.toLowerCase()) ||
             each.content.toLowerCase().includes(this.search.toLowerCase())
@@ -92,8 +101,10 @@ export default {
   watch: {
     $route: {
       handler: function (to) {
+        this.isLoading = true;
         this.category = to.query.category;
         this.search = to.query.search;
+        this.isLoading = false;
       },
       deep: true,
     },
@@ -102,9 +113,8 @@ export default {
 </script>
 
 <style scoped>
-.no-data-text{
+.no-data-text {
   font-size: 28px;
   font-weight: 600;
 }
-
 </style>

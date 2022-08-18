@@ -38,7 +38,11 @@
 
 <script>
 export default {
-  props: ["blog"],
+  props: {
+    blog:{
+      type: Object
+    }
+  },
   data() {
     return {
       blogId: "",
