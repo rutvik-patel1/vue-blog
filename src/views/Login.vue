@@ -36,29 +36,23 @@
         <button type="submit">{{ isLoading ? "wait...." : "Sign In" }}</button>
         <br />
       </form>
-      <!-- 
-      <div
-        id="g_id_onload"
-        data-client_id="1065646401251-oa698lqf8rino8i62vg5lppb6jv60av3.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse"
-      ></div> -->
-      <!-- <div class="g_id_signin" data-type="standard"></div> -->
+        <router-link to="/signup">
+          Don't have an account ?<span class="underline"> Register!</span>
+        </router-link>
+        <br/>
+        <router-link to="/resetpass">
+          <span class="underline"> Forget Password ?</span>
+        </router-link>
+        <br/>
+        <br/>
+      <div class="login-text">or Sign In with</div>
+      <br/>
       <div style="display: flex">
         <div id="signin_button"></div>
-        <!-- <fb:login-button
-          scope="public_profile,email"
-          onlogin="checkLoginState"
-        >
-        </fb:login-button> -->
-        <!-- <button class="button" @click="logInWithFacebook"> Login with Facebook</button> -->
+        <div class="fb-login-button" style="width:100%" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true" data-use-continue-as="false"></div>
+        
       </div>
-      <router-link to="/signup">
-        Don't have an account ?<span class="underline"> Register!</span>
-      </router-link>
-      <br />
-      <router-link to="/resetpass">
-        Forget Password ?<span class="underline"> Reset</span>
-      </router-link>
+      
     </div>
   </div>
 </template>
@@ -93,7 +87,30 @@ export default {
         { theme: "outline", size: "large" } // customization attributes
       );
       window.google.accounts.id.prompt();
+
+
+      (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      // eslint-disable-next-line no-undef
+      this.FB = FB
+    }(document, 'script', 'facebook-jssdk'));
+
+    // eslint-disable-next-line no-undef
+    FB.Event.subscribe('auth.login', function(response) {
+  // do something with response
+      console.log("loooooogouuut",response)
     });
+    // eslint-disable-next-line no-undef
+    FB.getLoginStatus(function (response) {
+        console.log("looogedin",response);
+      });
+    
+    });
+
   },
   data() {
     return {
@@ -104,47 +121,13 @@ export default {
     };
   },
   methods: {
-    // async logInWithFacebook() {
-    //   await this.loadFacebookSDK(document, "script", "facebook-jssdk");
-    //   await this.initFacebook();
-    //   // eslint-disable-next-line no-undef
-    //   FB.login().then((res)=>{
-    //     console.log(res)
-    //   })
-    // },
-    // async initFacebook() {
-    //   window.fbAsyncInit = function() {
-    //     window.FB.init({
-    //       appId: "374721328011694", //You will need to change this
-    //       cookie: true, // This is important, it's not enabled by default
-    //       xfbml      : true,
-    //       version: "v13.0"
-    //     });
-    //   };
-    // },
-    // async loadFacebookSDK(d, s, id) {
-    //   var js,
-    //     fjs = d.getElementsByTagName(s)[0];
-    //   if (d.getElementById(id)) {
-    //     return;
-    //   }
-    //   js = d.createElement(s);
-    //   js.id = id;
-    //   js.src = "https://connect.facebook.net/en_US/sdk.js";
-    //   fjs.parentNode.insertBefore(js, fjs);
-    // }
-
-    // async initFacebook() {
-    //   // eslint-disable-next-line no-undef
-
-    //   // eslint-disable-next-line no-undef
-    //   FB.init({
-    //     appId: "374721328011694", //You will need to change this
-    //     cookie: true, // This is important, it's not enabled by default
-    //     version: "v13.0",
-    //   });
-    // },
-// ,
+    getStatus(){
+      // eslint-disable-next-line no-undef
+      FB.getLoginStatus(function (response) {
+        console.log("looogedin",response);
+      });
+    },
+    
     handleCredentialResponse(response) {
       console.log("Encoded JWT ID token:2 ", response);
       const responsePayload = this.decodeJwtResponse(response.credential);
@@ -263,7 +246,7 @@ export default {
   display: block;
 }
 .auth-container form {
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 }
 .auth-container a {
   font-size: 16px;
@@ -292,4 +275,31 @@ export default {
     box-shadow: none;
   }
 }
+
+.login-text {
+  overflow: hidden;
+  text-align: center;
+}
+
+.login-text:before,
+.login-text:after {
+  background-color: #000;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.login-text:before {
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+.login-text:after {
+  left: 0.5em;
+  margin-right: -50%;
+}
+
 </style>
