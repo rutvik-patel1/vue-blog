@@ -44,7 +44,7 @@
       ></div> -->
       <!-- <div class="g_id_signin" data-type="standard"></div> -->
       <div style="display: flex">
-        <!-- <div id="signin_button"></div> -->
+        <div id="signin_button"></div>
         <!-- <fb:login-button
           scope="public_profile,email"
           onlogin="checkLoginState"
@@ -74,40 +74,27 @@ export default {
     script.defer = true;
     document.body.appendChild(script);
   },
-  // mounted: function () {
-  //   let googleScript = document.createElement("script");
-  //   googleScript.src = "https://accounts.google.com/gsi/client";
-  //   document.head.appendChild(googleScript);
+  mounted: function () {
+    let googleScript = document.createElement("script");
+    googleScript.src = "https://accounts.google.com/gsi/client";
+    document.head.appendChild(googleScript);
 
-  //   window.addEventListener("load", () => {
-  //     this.loadFacebookSDK(document, "script", "facebook-jssdk");
-  //     console.log(window.google);
+    window.addEventListener("load", () => {
 
-      
-  //       // eslint-disable-next-line no-undef
-  //       window.FB.init({
-  //         appId: "374721328011694",
-  //         cookie: true,
-  //         xfbml: true,
-  //         version: "v13.0",
-  //       });
+      console.log(window.google);
 
-  //       // eslint-disable-next-line no-undef
-  //       window.FB.AppEvents.logPageView();
-   
-
-  //     window.google.accounts.id.initialize({
-  //       client_id:
-  //         "1065646401251-oa698lqf8rino8i62vg5lppb6jv60av3.apps.googleusercontent.com",
-  //       callback: this.handleCredentialResponse,
-  //     });
-  //     window.google.accounts.id.renderButton(
-  //       document.getElementById("signin_button"),
-  //       { theme: "outline", size: "large" } // customization attributes
-  //     );
-  //     window.google.accounts.id.prompt();
-  //   });
-  // },
+      window.google.accounts.id.initialize({
+        client_id:
+          "1065646401251-oa698lqf8rino8i62vg5lppb6jv60av3.apps.googleusercontent.com",
+        callback: this.handleCredentialResponse,
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("signin_button"),
+        { theme: "outline", size: "large" } // customization attributes
+      );
+      window.google.accounts.id.prompt();
+    });
+  },
   data() {
     return {
       email: "",
