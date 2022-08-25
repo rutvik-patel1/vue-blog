@@ -1,3 +1,5 @@
+<!-- eslint-disable no-undef -->
+<!-- eslint-disable no-undef -->
 <template >
   <div class="auth-main-container">
     <div class="auth-container">
@@ -34,6 +36,22 @@
         <button type="submit">{{ isLoading ? "wait...." : "Sign In" }}</button>
         <br />
       </form>
+      <!-- 
+      <div
+        id="g_id_onload"
+        data-client_id="1065646401251-oa698lqf8rino8i62vg5lppb6jv60av3.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse"
+      ></div> -->
+      <!-- <div class="g_id_signin" data-type="standard"></div> -->
+      <div style="display: flex">
+        <!-- <div id="signin_button"></div> -->
+        <!-- <fb:login-button
+          scope="public_profile,email"
+          onlogin="checkLoginState"
+        >
+        </fb:login-button> -->
+        <!-- <button class="button" @click="logInWithFacebook"> Login with Facebook</button> -->
+      </div>
       <router-link to="/signup">
         Don't have an account ?<span class="underline"> Register!</span>
       </router-link>
@@ -50,7 +68,46 @@
 import { loginWithFirebase } from "../api/auth";
 import Cookies from "js-cookie";
 export default {
-  created() {},
+  created() {
+    let script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.defer = true;
+    document.body.appendChild(script);
+  },
+  // mounted: function () {
+  //   let googleScript = document.createElement("script");
+  //   googleScript.src = "https://accounts.google.com/gsi/client";
+  //   document.head.appendChild(googleScript);
+
+  //   window.addEventListener("load", () => {
+  //     this.loadFacebookSDK(document, "script", "facebook-jssdk");
+  //     console.log(window.google);
+
+      
+  //       // eslint-disable-next-line no-undef
+  //       window.FB.init({
+  //         appId: "374721328011694",
+  //         cookie: true,
+  //         xfbml: true,
+  //         version: "v13.0",
+  //       });
+
+  //       // eslint-disable-next-line no-undef
+  //       window.FB.AppEvents.logPageView();
+   
+
+  //     window.google.accounts.id.initialize({
+  //       client_id:
+  //         "1065646401251-oa698lqf8rino8i62vg5lppb6jv60av3.apps.googleusercontent.com",
+  //       callback: this.handleCredentialResponse,
+  //     });
+  //     window.google.accounts.id.renderButton(
+  //       document.getElementById("signin_button"),
+  //       { theme: "outline", size: "large" } // customization attributes
+  //     );
+  //     window.google.accounts.id.prompt();
+  //   });
+  // },
   data() {
     return {
       email: "",
@@ -60,6 +117,71 @@ export default {
     };
   },
   methods: {
+    // async logInWithFacebook() {
+    //   await this.loadFacebookSDK(document, "script", "facebook-jssdk");
+    //   await this.initFacebook();
+    //   // eslint-disable-next-line no-undef
+    //   FB.login().then((res)=>{
+    //     console.log(res)
+    //   })
+    // },
+    // async initFacebook() {
+    //   window.fbAsyncInit = function() {
+    //     window.FB.init({
+    //       appId: "374721328011694", //You will need to change this
+    //       cookie: true, // This is important, it's not enabled by default
+    //       xfbml      : true,
+    //       version: "v13.0"
+    //     });
+    //   };
+    // },
+    // async loadFacebookSDK(d, s, id) {
+    //   var js,
+    //     fjs = d.getElementsByTagName(s)[0];
+    //   if (d.getElementById(id)) {
+    //     return;
+    //   }
+    //   js = d.createElement(s);
+    //   js.id = id;
+    //   js.src = "https://connect.facebook.net/en_US/sdk.js";
+    //   fjs.parentNode.insertBefore(js, fjs);
+    // }
+
+    // async initFacebook() {
+    //   // eslint-disable-next-line no-undef
+
+    //   // eslint-disable-next-line no-undef
+    //   FB.init({
+    //     appId: "374721328011694", //You will need to change this
+    //     cookie: true, // This is important, it's not enabled by default
+    //     version: "v13.0",
+    //   });
+    // },
+// ,
+    handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token:2 ", response);
+      const responsePayload = this.decodeJwtResponse(response.credential);
+      console.log(responsePayload);
+      console.log("ID: " + responsePayload.sub);
+      console.log("Full Name: " + responsePayload.name);
+      console.log("Given Name: " + responsePayload.given_name);
+      console.log("Family Name: " + responsePayload.family_name);
+      console.log("Image URL: " + responsePayload.picture);
+      console.log("Email: " + responsePayload.email);
+    },
+    decodeJwtResponse(token) {
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      let jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return JSON.parse(jsonPayload);
+    },
     login() {
       this.isSubmitted = true;
       if (this.validate) {
