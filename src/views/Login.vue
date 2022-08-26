@@ -74,6 +74,7 @@ export default {
     script.defer = true;
     document.body.appendChild(script);
   },
+  mounted(){},
   data() {
     return {
       email: "",
@@ -123,6 +124,8 @@ export default {
         .then((res) => {
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+          this.$store.commit('SET_AUTH')
+          console.log(this.$store)
           this.$router.push({ name: "Home" });
         })
         .catch((error) => {
