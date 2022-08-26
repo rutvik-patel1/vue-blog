@@ -1,3 +1,4 @@
+<!-- eslint-disable no-undef -->
 <template >
   <div class="auth-main-container">
     <div class="auth-container">
@@ -47,6 +48,7 @@
       <br />
       <div style="display: flex">
         <div id="signin_button"></div>
+        <div id="fb-root"></div>
         <div
           class="fb-login-button"
           style="width: 100%"
@@ -55,6 +57,7 @@
           data-layout="default"
           data-auto-logout-link="true"
           data-use-continue-as="false"
+          @click="checkLoginStatus"
         ></div>
       </div>
     </div>
@@ -63,7 +66,11 @@
 
 
 <script>
-import { loginWithFirebase } from "../api/auth";
+import {
+  loginWithFirebase,
+  loginWithGoogle,
+  loginWithFacebook,
+} from "../api/auth";
 import loadsdkmixin from "../mixins/loadsdkmixin";
 import Cookies from "js-cookie";
 export default {
@@ -74,7 +81,55 @@ export default {
     script.defer = true;
     document.body.appendChild(script);
   },
-  mounted(){},
+  mounted() {
+    
+    // eslint-disable-next-line no-undef
+    FB.init({
+      appId            : '374721328011694',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v14.0'
+    });
+    // eslint-disable-next-line no-undef
+    FB.getLoginStatus(function (response) {
+         try {
+        loginWithFacebook(response.authResponse.accessToken)
+          .then((res) => {
+            Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+            Cookies.set("refreshToken", res.data.refreshToken, {
+              expires: 365,
+            });
+            this.$store.commit("SET_AUTH");
+            this.$router.push({ name: "Home" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      });
+    // eslint-disable-next-line no-undef
+    FB.Event.subscribe("auth.login", function (response) {
+      console.log("loooooogouuut", response.authResponse.accessToken);
+      try {
+        loginWithFacebook(response.authResponse.accessToken)
+          .then((res) => {
+            Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+            Cookies.set("refreshToken", res.data.refreshToken, {
+              expires: 365,
+            });
+            this.$store.commit("SET_AUTH");
+            this.$router.push({ name: "Home" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  },
   data() {
     return {
       email: "",
@@ -84,16 +139,26 @@ export default {
     };
   },
   methods: {
-    getStatus() {
+    checkLoginStatus(){
       // eslint-disable-next-line no-undef
       FB.getLoginStatus(function (response) {
-        console.log("looogedin", response);
+        console.log("alreadyy logged in", response);
       });
     },
-
     handleCredentialResponse(response) {
       console.log("Encoded JWT ID token:2 ", response);
       const responsePayload = this.decodeJwtResponse(response.credential);
+      loginWithGoogle(response.credential)
+        .then((res) => {
+          console.log("donnnnnne", res);
+          Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+          Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+          this.$store.commit("SET_AUTH");
+          this.$router.push({ name: "Home" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       console.log(responsePayload);
       console.log("ID: " + responsePayload.sub);
       console.log("Full Name: " + responsePayload.name);
@@ -124,8 +189,8 @@ export default {
         .then((res) => {
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
-          this.$store.commit('SET_AUTH')
-          console.log(this.$store)
+          this.$store.commit("SET_AUTH");
+          console.log(this.$store);
           this.$router.push({ name: "Home" });
         })
         .catch((error) => {

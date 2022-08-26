@@ -54,3 +54,32 @@ export function getNewAccessToken() {
     })
 
 }
+
+export function loginWithGoogle(token) {
+    const payload = {
+        requestUri: "http://localhost",
+        postBody: `id_token=${token}&providerId=google.com`,
+        returnSecureToken: true,
+        returnIdpCredential: true
+    }
+    return axios({
+        url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${AUTH_API}`,
+        method: 'post',
+        data: payload
+    })
+}
+
+export function loginWithFacebook(token) {
+    const payload = {
+        requestUri: "http://localhost",
+        postBody: `access_token=${token}&providerId=facebook.com`,
+        returnSecureToken: true,
+        returnIdpCredential: true
+    }
+    return axios({
+        url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${AUTH_API}`,
+        method: 'post',
+        data: payload
+    })
+
+}

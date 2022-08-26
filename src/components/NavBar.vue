@@ -18,7 +18,7 @@
             <router-link :to="link.path">{{link.name}}</router-link>
           </li>
         </ul>
-        <ul v-else>
+        <ul class="links" v-else>
           <li>
             <a href="#">Logout</a>
           </li>
