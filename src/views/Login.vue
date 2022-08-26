@@ -1,5 +1,3 @@
-<!-- eslint-disable no-undef -->
-<!-- eslint-disable no-undef -->
 <template >
   <div class="auth-main-container">
     <div class="auth-container">
@@ -36,23 +34,29 @@
         <button type="submit">{{ isLoading ? "wait...." : "Sign In" }}</button>
         <br />
       </form>
-        <router-link to="/signup">
-          Don't have an account ?<span class="underline"> Register!</span>
-        </router-link>
-        <br/>
-        <router-link to="/resetpass">
-          <span class="underline"> Forget Password ?</span>
-        </router-link>
-        <br/>
-        <br/>
+      <router-link to="/signup">
+        Don't have an account ?<span class="underline"> Register!</span>
+      </router-link>
+      <br />
+      <router-link to="/resetpass">
+        <span class="underline"> Forget Password ?</span>
+      </router-link>
+      <br />
+      <br />
       <div class="login-text">or Sign In with</div>
-      <br/>
+      <br />
       <div style="display: flex">
         <div id="signin_button"></div>
-        <div class="fb-login-button" style="width:100%" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true" data-use-continue-as="false"></div>
-        
+        <div
+          class="fb-login-button"
+          style="width: 100%"
+          data-size="large"
+          data-button-type="continue_with"
+          data-layout="default"
+          data-auto-logout-link="true"
+          data-use-continue-as="false"
+        ></div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -60,57 +64,15 @@
 
 <script>
 import { loginWithFirebase } from "../api/auth";
+import loadsdkmixin from "../mixins/loadsdkmixin";
 import Cookies from "js-cookie";
 export default {
+  mixins: [loadsdkmixin],
   created() {
     let script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
     script.defer = true;
     document.body.appendChild(script);
-  },
-  mounted: function () {
-    let googleScript = document.createElement("script");
-    googleScript.src = "https://accounts.google.com/gsi/client";
-    document.head.appendChild(googleScript);
-
-    window.addEventListener("load", () => {
-
-      console.log(window.google);
-
-      window.google.accounts.id.initialize({
-        client_id:
-          "1065646401251-oa698lqf8rino8i62vg5lppb6jv60av3.apps.googleusercontent.com",
-        callback: this.handleCredentialResponse,
-      });
-      window.google.accounts.id.renderButton(
-        document.getElementById("signin_button"),
-        { theme: "outline", size: "large" } // customization attributes
-      );
-      window.google.accounts.id.prompt();
-
-
-      (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-      // eslint-disable-next-line no-undef
-      this.FB = FB
-    }(document, 'script', 'facebook-jssdk'));
-
-    // eslint-disable-next-line no-undef
-    FB.Event.subscribe('auth.login', function(response) {
-  // do something with response
-      console.log("loooooogouuut",response)
-    });
-    // eslint-disable-next-line no-undef
-    FB.getLoginStatus(function (response) {
-        console.log("looogedin",response);
-      });
-    
-    });
-
   },
   data() {
     return {
@@ -121,13 +83,13 @@ export default {
     };
   },
   methods: {
-    getStatus(){
+    getStatus() {
       // eslint-disable-next-line no-undef
       FB.getLoginStatus(function (response) {
-        console.log("looogedin",response);
+        console.log("looogedin", response);
       });
     },
-    
+
     handleCredentialResponse(response) {
       console.log("Encoded JWT ID token:2 ", response);
       const responsePayload = this.decodeJwtResponse(response.credential);
@@ -301,5 +263,4 @@ export default {
   left: 0.5em;
   margin-right: -50%;
 }
-
 </style>
