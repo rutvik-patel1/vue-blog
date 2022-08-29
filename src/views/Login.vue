@@ -48,7 +48,6 @@
       <br />
       <div style="display: flex">
         <div id="signin_button"></div>
-        <div id="fb-root"></div>
         <div
           class="fb-login-button"
           style="width: 100%"
@@ -82,33 +81,34 @@ export default {
     document.body.appendChild(script);
   },
   mounted() {
-    
     // eslint-disable-next-line no-undef
     FB.init({
-      appId            : '374721328011694',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      version          : 'v14.0'
+      appId: "374721328011694",
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: "v14.0",
     });
     // eslint-disable-next-line no-undef
     FB.getLoginStatus(function (response) {
-         try {
-        loginWithFacebook(response.authResponse.accessToken)
-          .then((res) => {
-            Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
-            Cookies.set("refreshToken", res.data.refreshToken, {
-              expires: 365,
+      try {
+        if (response.authResponse.accessToken) {
+          loginWithFacebook(response.authResponse.accessToken)
+            .then((res) => {
+              Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+              Cookies.set("refreshToken", res.data.refreshToken, {
+                expires: 365,
+              });
+              this.$store.commit("SET_AUTH");
+              this.$router.push({ name: "Home" });
+            })
+            .catch((err) => {
+              console.log(err);
             });
-            this.$store.commit("SET_AUTH");
-            this.$router.push({ name: "Home" });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        }
       } catch (error) {
         console.log(error);
       }
-      });
+    });
     // eslint-disable-next-line no-undef
     FB.Event.subscribe("auth.login", function (response) {
       console.log("loooooogouuut", response.authResponse.accessToken);
@@ -139,7 +139,7 @@ export default {
     };
   },
   methods: {
-    checkLoginStatus(){
+    checkLoginStatus() {
       // eslint-disable-next-line no-undef
       FB.getLoginStatus(function (response) {
         console.log("alreadyy logged in", response);
