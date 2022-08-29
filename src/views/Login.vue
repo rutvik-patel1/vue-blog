@@ -56,7 +56,6 @@
           data-layout="default"
           data-auto-logout-link="true"
           data-use-continue-as="false"
-          @click="checkLoginStatus"
         ></div>
       </div>
     </div>
@@ -74,13 +73,7 @@ import loadsdkmixin from "../mixins/loadsdkmixin";
 import Cookies from "js-cookie";
 export default {
   mixins: [loadsdkmixin],
-  created() {
-    let script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.defer = true;
-    document.body.appendChild(script);
-  },
-  mounted() {
+  mounted: function () {
     // eslint-disable-next-line no-undef
     FB.init({
       appId: "374721328011694",
@@ -88,43 +81,21 @@ export default {
       xfbml: true,
       version: "v14.0",
     });
+    console.log(this.$store);
     // eslint-disable-next-line no-undef
-    FB.getLoginStatus(function (response) {
+    FB.getLoginStatus((response) => {
       try {
-        if (response.authResponse.accessToken) {
-          loginWithFacebook(response.authResponse.accessToken)
-            .then((res) => {
-              Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
-              Cookies.set("refreshToken", res.data.refreshToken, {
-                expires: 365,
-              });
-              this.$store.commit("SET_AUTH");
-              this.$router.push({ name: "Home" });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+        if (response?.authResponse?.accessToken) {
+          this.getLoginWithFacebook(response?.authResponse?.accessToken);
         }
       } catch (error) {
         console.log(error);
       }
     });
     // eslint-disable-next-line no-undef
-    FB.Event.subscribe("auth.login", function (response) {
-      console.log("loooooogouuut", response.authResponse.accessToken);
+    FB.Event.subscribe("auth.login", (response) => {
       try {
-        loginWithFacebook(response.authResponse.accessToken)
-          .then((res) => {
-            Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
-            Cookies.set("refreshToken", res.data.refreshToken, {
-              expires: 365,
-            });
-            this.$store.commit("SET_AUTH");
-            this.$router.push({ name: "Home" });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.getLoginWithFacebook(response?.authResponse?.accessToken);
       } catch (error) {
         console.log(error);
       }
@@ -139,14 +110,8 @@ export default {
     };
   },
   methods: {
-    checkLoginStatus() {
-      // eslint-disable-next-line no-undef
-      FB.getLoginStatus(function (response) {
-        console.log("alreadyy logged in", response);
-      });
-    },
     handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token:2 ", response);
+      // eslint-disable-next-line no-unused-vars
       const responsePayload = this.decodeJwtResponse(response.credential);
       loginWithGoogle(response.credential)
         .then((res) => {
@@ -159,13 +124,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      console.log(responsePayload);
-      console.log("ID: " + responsePayload.sub);
-      console.log("Full Name: " + responsePayload.name);
-      console.log("Given Name: " + responsePayload.given_name);
-      console.log("Family Name: " + responsePayload.family_name);
-      console.log("Image URL: " + responsePayload.picture);
-      console.log("Email: " + responsePayload.email);
     },
     decodeJwtResponse(token) {
       let base64Url = token.split(".")[1];
@@ -189,12 +147,26 @@ export default {
         .then((res) => {
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+
           this.$store.commit("SET_AUTH");
-          console.log(this.$store);
           this.$router.push({ name: "Home" });
         })
         .catch((error) => {
           console.log(error);
+        });
+    },
+    getLoginWithFacebook(token) {
+      loginWithFacebook(token)
+        .then((res) => {
+          Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+          Cookies.set("refreshToken", res.data.refreshToken, {
+            expires: 365,
+          });
+          this.$store.commit("SET_AUTH");
+          this.$router.push({ name: "Home" });
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },
