@@ -13,9 +13,14 @@
         </button>
       </div>
       <div :class="[isVisible ? 'fixed-height' : '']" class="links-container">
-        <ul class="links">
+        <ul class="links" v-if="!isAuthenticated">
           <li v-for="(link,index) in navlinks" :key="index">
             <router-link :to="link.path">{{link.name}}</router-link>
+          </li>
+        </ul>
+        <ul class="links" v-else>
+          <li>
+            <a href="#">Logout</a>
           </li>
         </ul>
       </div>
@@ -25,6 +30,7 @@
 
 <script>
 import navlinks from '../utils/navigation';
+import { mapState } from 'vuex';
 export default {
   name: "Navbar",
   data() {
@@ -32,6 +38,9 @@ export default {
       isVisible: false,
       navlinks
     };
+  },
+  computed:{
+      ...mapState(['isAuthenticated'])
   },
   methods: {
     toggleNavbar() {

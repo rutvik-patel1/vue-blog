@@ -1,3 +1,4 @@
+<!-- eslint-disable no-undef -->
 <template >
   <div class="auth-main-container">
     <div class="auth-container">
@@ -39,18 +40,67 @@
       </router-link>
       <br />
       <router-link to="/resetpass">
-        Forget Password ?<span class="underline"> Reset</span>
+        <span class="underline"> Forget Password ?</span>
       </router-link>
+      <br />
+      <br />
+      <div class="login-text">or Sign In with</div>
+      <br />
+      <div style="display: flex">
+        <div id="signin_button"></div>
+        <div
+          class="fb-login-button"
+          style="width: 100%"
+          data-size="large"
+          data-button-type="continue_with"
+          data-layout="default"
+          data-auto-logout-link="true"
+          data-use-continue-as="false"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import { loginWithFirebase } from "../api/auth";
+import {
+  loginWithFirebase,
+  loginWithGoogle,
+  loginWithFacebook,
+} from "../api/auth";
+import loadsdkmixin from "../mixins/loadsdkmixin";
 import Cookies from "js-cookie";
 export default {
-  created() {},
+  mixins: [loadsdkmixin],
+  mounted: function () {
+    // eslint-disable-next-line no-undef
+    FB.init({
+      appId: "374721328011694",
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: "v14.0",
+    });
+    console.log(this.$store);
+    // eslint-disable-next-line no-undef
+    FB.getLoginStatus((response) => {
+      try {
+        if (response?.authResponse?.accessToken) {
+          this.getLoginWithFacebook(response?.authResponse?.accessToken);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    // eslint-disable-next-line no-undef
+    FB.Event.subscribe("auth.login", (response) => {
+      try {
+        this.getLoginWithFacebook(response?.authResponse?.accessToken);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  },
   data() {
     return {
       email: "",
@@ -60,6 +110,34 @@ export default {
     };
   },
   methods: {
+    handleCredentialResponse(response) {
+      // eslint-disable-next-line no-unused-vars
+      const responsePayload = this.decodeJwtResponse(response.credential);
+      loginWithGoogle(response.credential)
+        .then((res) => {
+          console.log("donnnnnne", res);
+          Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+          Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+          this.$store.commit("SET_AUTH");
+          this.$router.push({ name: "Home" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    decodeJwtResponse(token) {
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      let jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return JSON.parse(jsonPayload);
+    },
     login() {
       this.isSubmitted = true;
       if (this.validate) {
@@ -69,10 +147,26 @@ export default {
         .then((res) => {
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+
+          this.$store.commit("SET_AUTH");
           this.$router.push({ name: "Home" });
         })
         .catch((error) => {
           console.log(error);
+        });
+    },
+    getLoginWithFacebook(token) {
+      loginWithFacebook(token)
+        .then((res) => {
+          Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
+          Cookies.set("refreshToken", res.data.refreshToken, {
+            expires: 365,
+          });
+          this.$store.commit("SET_AUTH");
+          this.$router.push({ name: "Home" });
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },
@@ -154,7 +248,7 @@ export default {
   display: block;
 }
 .auth-container form {
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 }
 .auth-container a {
   font-size: 16px;
@@ -182,5 +276,31 @@ export default {
   .auth-container {
     box-shadow: none;
   }
+}
+
+.login-text {
+  overflow: hidden;
+  text-align: center;
+}
+
+.login-text:before,
+.login-text:after {
+  background-color: #000;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.login-text:before {
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+.login-text:after {
+  left: 0.5em;
+  margin-right: -50%;
 }
 </style>

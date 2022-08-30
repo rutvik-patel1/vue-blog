@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="postAComment">
+    <form @submit.prevent="postAComment" v-if="isAuthenticated">
       <div>
         <label for="name">Name</label>
         <input
@@ -27,10 +27,14 @@
         <button type="submit">Post A Comment</button>
       </div>
     </form>
+    <div class="login-btn-comment" v-else>
+      <router-link to="/login">Please Login To Comment</router-link>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -39,6 +43,9 @@ export default {
         comment: "",
       },
     };
+  },
+  computed: {
+    ...mapState(["isAuthenticated"]),
   },
   methods: {
     postAComment() {
@@ -90,6 +97,22 @@ button {
   color: white;
   border: none;
   border-radius: 4px;
+}
+a {
+  /* margin: 10px; */
+
+  cursor: pointer;
+  margin-top: 32px;
+  padding: 12px 12px;
+  background: darkcyan;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+.login-btn-comment {
+  margin-bottom: 10px;
+  padding: 50px;
+  text-align: center;
 }
 button:hover {
   background: rgb(0, 105, 105);
