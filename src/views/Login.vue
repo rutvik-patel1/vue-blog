@@ -118,6 +118,7 @@ export default {
           console.log("donnnnnne", res);
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
+          Cookies.set('isAuthenticated',true,{ expires: 365 })
           this.$store.commit("SET_AUTH");
           this.$router.push({ name: "Home" });
         })
@@ -147,7 +148,7 @@ export default {
         .then((res) => {
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
-
+          Cookies.set('isAuthenticated',true,{ expires: 365 })
           this.$store.commit("SET_AUTH");
           this.$router.push({ name: "Home" });
         })
@@ -162,6 +163,7 @@ export default {
           Cookies.set("refreshToken", res.data.refreshToken, {
             expires: 365,
           });
+          Cookies.set('isAuthenticated',true,{ expires: 365 })
           this.$store.commit("SET_AUTH");
           this.$router.push({ name: "Home" });
         })

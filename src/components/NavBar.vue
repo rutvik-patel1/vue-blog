@@ -20,7 +20,7 @@
         </ul>
         <ul class="links" v-else>
           <li>
-            <a href="#">Logout</a>
+            <a href="#" @click="logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -46,6 +46,13 @@ export default {
     toggleNavbar() {
       this.isVisible = !this.isVisible;
     },
+    async logout(){
+      try {
+        await this.$store.dispatch('logout')
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
 };
 </script>
