@@ -35,6 +35,7 @@ axiosInstance.interceptors.response.use(
         const res = await getNewAccessToken()
         Cookies.set('idToken', res.data.id_token, { expires: 1 / 1440 })
         Cookies.set('refreshToken', res.data.refresh_token, { expires: 365 })
+        Cookies.set('isAuthenticated',true,{ expires: 365 })
         return axiosInstance(originalRequest);
       }
     } catch (error) {
