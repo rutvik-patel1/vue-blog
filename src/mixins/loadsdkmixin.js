@@ -26,7 +26,6 @@ export default {
       js = d.createElement(s); js.id = id;
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
-      console.log("loaded")
     }
 
     loadFBsdk(document, 'script', 'facebook-jssdk')

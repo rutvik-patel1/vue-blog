@@ -26,7 +26,6 @@ export default {
       this.blogId = Math.floor(Math.random() * 11) + 1;
       getBlogById(this.blogId).then((res) => {
         if (res.data) {
-          console.log(res.data);
           this.blogData = res.data;
         }
       });
