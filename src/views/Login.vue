@@ -81,7 +81,6 @@ export default {
       xfbml: true,
       version: "v14.0",
     });
-    console.log(this.$store);
     // eslint-disable-next-line no-undef
     FB.getLoginStatus((response) => {
       try {
@@ -115,7 +114,6 @@ export default {
       const responsePayload = this.decodeJwtResponse(response.credential);
       loginWithGoogle(response.credential)
         .then((res) => {
-          console.log("donnnnnne", res);
           Cookies.set("idToken", res.data.idToken, { expires: 1 / 1440 });
           Cookies.set("refreshToken", res.data.refreshToken, { expires: 365 });
           Cookies.set('isAuthenticated',true,{ expires: 365 })

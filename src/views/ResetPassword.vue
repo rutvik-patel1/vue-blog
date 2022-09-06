@@ -51,7 +51,6 @@ export default {
           alert("main sent successfully");
         })
         .catch((err) => {
-          console.log("error");
           console.log(err);
         });
     },

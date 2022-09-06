@@ -82,8 +82,7 @@ export default {
   methods: {
     postComment(data) {
       postComment(this.blog.id-1,data)
-      .then((res)=>{
-        console.log(res)
+      .then(()=>{
         this.getComments()
       })
       .catch((err)=>{
@@ -94,7 +93,7 @@ export default {
     getComments(){
       getAllComments(this.blog.id-1)
       .then((res)=>{
-        console.log(res.data)
+      
         this.commentData = res.data
       })
       .catch((err)=>{
