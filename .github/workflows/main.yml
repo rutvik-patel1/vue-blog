@@ -10,6 +10,9 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  S3_BUCKET_dev: dev-vue-app
+  S3_BUCKET_master: staging-my-vue-app
+  S3_BUCKET_production: production-my-vue-app
 
 jobs:
   deploy:
@@ -35,7 +38,3 @@ jobs:
         AWS_REGION: us-east-1
         S3_BUCKET: ${{ env.S3_BUCKET_${{ env.BRANCH }} }}
 
-env:
-  S3_BUCKET_dev: dev-vue-app
-  S3_BUCKET_master: staging-my-vue-app
-  S3_BUCKET_production: production-my-vue-app
