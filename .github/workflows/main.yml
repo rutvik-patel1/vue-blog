@@ -38,5 +38,5 @@ jobs:
         
       env:
         AWS_REGION: ap-south-1
-        S3_BUCKET: ${{ env.S3_BUCKET_${{ env.BRANCH }} }}
+        S3_BUCKET: ${{ env.S3_BUCKET_master }}
 
