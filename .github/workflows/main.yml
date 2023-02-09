@@ -1,0 +1,41 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+      - production
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        npm ci
+
+    - name: Build for production
+      run: |
+        npm run build
+
+    - name: Deploy to AWS S3
+      uses: aws-actions/aws-cli-deploy@v1
+      with:
+        args: s3 cp dist s3://${{ env.S3_BUCKET }}/${{ env.BRANCH }}/ --recursive
+      env:
+        AWS_REGION: us-east-1
+        S3_BUCKET: ${{ env.S3_BUCKET_${{ env.BRANCH }} }}
+
+env:
+  S3_BUCKET_dev: dev-vue-app
+  S3_BUCKET_master: staging-my-vue-app
+  S3_BUCKET_production: production-my-vue-app
