@@ -13,6 +13,7 @@ env:
   S3_BUCKET_dev: dev-vue-app
   S3_BUCKET_master: staging-my-vue-app
   S3_BUCKET_production: production-my-vue-app
+  Branch: master
 
 jobs:
   deploy:
@@ -36,6 +37,6 @@ jobs:
         args: s3 cp dist s3://${{ env.S3_BUCKET }}/${{ env.BRANCH }}/ --recursive
         
       env:
-        AWS_REGION: us-east-1
+        AWS_REGION: ap-south-1
         S3_BUCKET: ${{ env.S3_BUCKET_${{ env.BRANCH }} }}
 
